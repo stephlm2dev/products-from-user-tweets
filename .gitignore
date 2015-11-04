@@ -60,3 +60,5 @@ docs/_build/
 # PyBuilder
 target/
 
+## Personal ignored files
+config.ini

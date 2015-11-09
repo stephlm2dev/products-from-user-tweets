@@ -6,3 +6,6 @@ from django.http import HttpResponse
 def index(request):
     return HttpResponse("Hello, world.")
 
+def results(request, username):
+    response = "Twitter user: %s."
+    return HttpResponse(response % username)

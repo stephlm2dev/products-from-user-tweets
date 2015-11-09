@@ -4,8 +4,9 @@ from django.http import HttpResponse
 # Create your views here.
 
 def index(request):
-    return HttpResponse("Hello, world.")
+    context = {}
+    return render(request, 'schmilka/index.html', context)
 
 def results(request, username):
-    response = "Twitter user: %s."
-    return HttpResponse(response % username)
+    context = { 'username': username }
+    return render(request, 'schmilka/results.html', context)

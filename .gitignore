@@ -1,4 +1,14 @@
-# Created by https://www.gitignore.io/api/python
+# Created by https://www.gitignore.io/api/linux,python,django
+
+### Linux ###
+*~
+
+# KDE directory preferences
+.directory
+
+# Linux trash folder which might appear on any partition or disk
+.Trash-*
+
 
 ### Python ###
 # Byte-compiled / optimized / DLL files
@@ -59,6 +69,14 @@ docs/_build/
 
 # PyBuilder
 target/
+
+
+### Django ###
+*.log
+*.pot
+*.pyc
+__pycache__/
+local_settings.py
 
 ## Personal ignored files
 config.ini

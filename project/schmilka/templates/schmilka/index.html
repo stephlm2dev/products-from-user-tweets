@@ -1,1 +1,10 @@
-TEST
+<h1>Recommandation de produits</h1>
+
+<form action="{% url 'app:process' %}" method="post">
+  {% csrf_token %}
+  <div class="twittos-field">
+    <label for="twittos">Identifiant Twitter<label>
+    <input type="text" name="twittos" id="twittos" placeholder="Identifiant du compte Twitter">
+  </div>
+  <input type="submit" value="Vote" />
+</form>

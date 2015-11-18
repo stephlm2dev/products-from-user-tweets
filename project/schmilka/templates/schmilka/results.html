@@ -1,1 +1,50 @@
+{% load staticfiles %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'schmilka/style.css' %}" />
+
 Twitter user: {{ username }}
+
+{% for tweet in timeline %}
+  <div class="tweet">
+    <blockquote class="twitter-tweet">
+      <p xml:lang="{{ tweet.lang }}" lang="{{ tweet.lang }}">
+        {% if tweet.retweeted %}
+          {{ tweet.retweeted_status.text }}
+        {% else %}
+         {{ tweet.text }}
+        {% endif %}
+      </p>
+
+      <!-- Image -->
+      {% if tweet.entities.media %}
+        <img src="" alt="" title="">
+      {% endif %}
+
+      <!-- Second part of the info -->
+      {% if tweet.retweeted %}
+        <a href="https://twitter.com/{{ tweet.retweeted_status.user.screen_name }}" target="_blank">
+          @{{ tweet.retweeted_status.user.screen_name }}</a>
+        </a>
+      {% else %}
+        <a href="https://twitter.com/{{ tweet.user.screen_name }}" target="_blank">
+          @{{ tweet.user.screen_name }}
+        </a>
+      {% endif %}
+
+      -
+      {% if tweet.retweeted %}
+        <a href="https://twitter.com/{{ tweet.retweeted_status.user.screen_name
+          }}/status/{{ tweet.retweeted_status.id_str }}"
+          target="_blank">
+          {{ tweet.created_at }}
+        </a>
+      {% else %}
+        <a href="https://twitter.com/{{ tweet.screen_name }}/status/{{ tweet.id }}" target="_blank">
+          {{ tweet.created_at }}
+        </a>
+      {% endif %}
+    </blockquote>
+  </div>
+{% empty %}
+  <p class="nothing">{{ username }} n'a pas encore tweeté. </p>
+{% endfor %}

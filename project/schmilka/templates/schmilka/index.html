@@ -1,10 +1,18 @@
-<h1>Recommandation de produits</h1>
+{% load staticfiles %}
 
-<form action="{% url 'app:process' %}" method="post">
-  {% csrf_token %}
-  <div class="twittos-field">
-    <label for="twittos">Identifiant Twitter<label>
-    <input type="text" name="twittos" id="twittos" placeholder="Identifiant du compte Twitter">
-  </div>
-  <input type="submit" value="Vote" />
-</form>
+<link rel="stylesheet" type="text/css" href="{% static 'schmilka/style.css' %}" />
+<script type="text/javascript" src="{% static 'schmilka/scripts/typeahead.bundle.js' %}"></script>
+<script type="text/javascript" src="{% static 'schmilka/scripts/jquery-2.1.4.min.js' %}"></script>
+
+<div class="content" role="main">
+  <h1>Recommandation de produits</h1>
+
+  <form action="{% url 'app:process' %}" method="post">
+    {% csrf_token %}
+    <div class="twittos-field">
+      <label for="twittos">Identifiant Twitter</label>
+      <input class="typeahead" name="twittos" id="twittos" placeholder="Identifiant du compte Twitter">
+    </div>
+    <input type="submit" value="→" class="submit-form"/>
+  </form>
+</div>

@@ -1,9 +1,13 @@
-from django.shortcuts import render
+# Django import
 from django.http import HttpResponseRedirect, HttpResponse
+from django.template import RequestContext
+from django.shortcuts import render
 from django.core.urlresolvers import reverse
 
-# Create your views here.
+# Our import
+from twitter import Twitter
 
+# Views
 def index(request):
     context = {}
     return render(request, 'schmilka/index.html', context)
@@ -17,5 +21,14 @@ def process(request):
     return HttpResponseRedirect(reverse('app:results', args=(username,)))
 
 def results(request, username):
-    context = { 'username': username }
-    return render(request, 'schmilka/results.html', context)
+    # Request our context from the request passed to us.
+    context = RequestContext(request)
+
+    twitterAPI = Twitter("config.ini")
+    timeline = twitterAPI.get_tweets_from(username, 10)
+    name = twitterAPI.get_name(username)
+    content = {
+      'username': name,
+      'timeline': timeline
+    }
+    return render(request, 'schmilka/results.html', content, context)

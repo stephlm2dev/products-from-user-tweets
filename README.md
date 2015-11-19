@@ -7,8 +7,6 @@ Display a set of products depends on user tweets
 cd project/
 python2.7 manage.py runserver
 ```
-Dossier project
-
 
 [http://localhost:8000/schmilka/](http://localhost:8000/schmilka/)
 

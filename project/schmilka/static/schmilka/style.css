@@ -1,7 +1,15 @@
 body {
   color: white;
+  padding: 10px;
   background-color: #212121;
   font-family: 'Open Sans', sans-serif;
+}
+
+/* Inspired by Bootstrap */
+.img-responsive {
+  display: block;
+  max-width: 100%;
+  height: auto;
 }
 
 .content {
@@ -19,6 +27,7 @@ form {
 }
 
 .twittos-field input {
+  color: black;
   margin-right: 10px;
 }
 

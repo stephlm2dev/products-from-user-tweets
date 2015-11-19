@@ -1,5 +1,6 @@
 {% load staticfiles %}
 
+<link rel="stylesheet" type="text/css" href="{% static 'schmilka/normalize.css' %}" />
 <link rel="stylesheet" type="text/css" href="{% static 'schmilka/style.css' %}" />
 
 Twitter user: {{ username }}
@@ -17,7 +18,7 @@ Twitter user: {{ username }}
 
       <!-- Image -->
       {% for media in tweet.entities.media %}
-        <img src="{{ media.media_url_https }}" alt="" title="">
+        <img src="{{ media.media_url_https }}" alt="" title="" class="img-responsive">
       {% endfor %}
 
       <!-- Second part of the info -->

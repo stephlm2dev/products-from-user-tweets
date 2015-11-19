@@ -35,8 +35,8 @@ class Twitter:
         # Usefull data: tweet.{text/retweeted/favorited}
         return self.api.user_timeline(id = user, count = n_tweets)
 
-    def get_name(self, user):
-        user = self.api.verify_credentials()
+    def get_name(self, username):
+        user = self.api.get_user(username)
         return user.name
 
 

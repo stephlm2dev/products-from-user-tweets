@@ -16,9 +16,9 @@ Twitter user: {{ username }}
       </p>
 
       <!-- Image -->
-      {% if tweet.entities.media %}
-        <img src="" alt="" title="">
-      {% endif %}
+      {% for media in tweet.entities.media %}
+        <img src="{{ media.media_url_https }}" alt="" title="">
+      {% endfor %}
 
       <!-- Second part of the info -->
       {% if tweet.retweeted %}

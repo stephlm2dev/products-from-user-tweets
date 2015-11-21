@@ -24,11 +24,15 @@ def results(request, username):
     # Request our context from the request passed to us.
     context = RequestContext(request)
 
-    twitterAPI = Twitter("config.ini")
-    timeline = twitterAPI.get_tweets_from(username, 10)
-    name = twitterAPI.get_name(username)
+    twitter  = Twitter("config.ini")
+    timeline = twitter.get_tweets_from(username, 10)
+    tweets   = twitter.clean_tweets(timeline)
+    name     = twitter.get_name(username)
+
+
     content = {
       'username': name,
-      'timeline': timeline
+      'timeline': timeline,
+      'formatted_tweets': tweets
     }
     return render(request, 'schmilka/results.html', content, context)

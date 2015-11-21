@@ -45,7 +45,16 @@ Twitter user: {{ username }}
         </a>
       {% endif %}
     </blockquote>
+
   </div>
 {% empty %}
   <p class="nothing">{{ username }} n'a pas encore tweeté. </p>
 {% endfor %}
+
+<!-- REMOVE ME -->
+{% for el in formatted_tweets %}
+  AAA
+  {{ el }} <br>
+{% endfor %}
+<!-- REMOVE ME -->
+

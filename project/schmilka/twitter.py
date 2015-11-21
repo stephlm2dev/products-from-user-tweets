@@ -86,10 +86,10 @@ class Twitter:
         # Remove # from hashtag
         tweet = re.sub(r'#', ' ', tweet)
 
-        # TODO Split hashtags with captials
+        # Split hashtags with captials
         tweet = " ".join(re.findall('[A-Z][^A-Z]*', tweet))
 
-        # Remove useless word such as 'de,du, le, la ...'
+        # FIXME Remove useless word such as 'de,du, le, la ...'
         # See: http://www.nltk.org/book/ch05.html
         tokens = nltk.word_tokenize(tweet)
         categories = nltk.pos_tag(tokens)

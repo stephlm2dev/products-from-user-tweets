@@ -91,14 +91,14 @@ class Twitter:
 
         # Remove useless word such as 'de,du, le, la ...'
         # See: http://www.nltk.org/book/ch05.html
-        # tokens = nltk.word_tokenize(tweet)
-        # categories = nltk.pos_tag(tokens)
-        # cleaned_tweet = []
-        # for (word, tag) in categories:
-        #     if tag in ("VERB", "ADJ", "NOUN", "X"):
-        #         cleaned_tweet.append(word)
+        tokens = nltk.word_tokenize(tweet)
+        categories = nltk.pos_tag(tokens)
+        cleaned_tweet = []
+        for (word, tag) in categories:
+            # if tag in ("VERB", "ADJ", "NOUN", "X"):
+                cleaned_tweet.append(word)
 
-        # tweet = " ".join(cleaned_tweet)
+        tweet = " ".join(cleaned_tweet)
 
         # Remove punctuation
         tweet = "".join(character for character in tweet if character not in string.punctuation)
@@ -109,8 +109,3 @@ class Twitter:
         # Convert to lowercase
         tweet = tweet.lower()
         return tweet
-
-
-
-
-

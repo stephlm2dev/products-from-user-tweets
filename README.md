@@ -26,6 +26,8 @@ File → Change Download Directory
   * /usr/local/share/nltk_data (Mac)
   * /usr/share/nltk_data (Unix)
 
+Install 'maxent_treebank_pos_tagger' package
+
 [More details on 'Installing NLTK Data'](http://www.nltk.org/data.html)
 
 Server

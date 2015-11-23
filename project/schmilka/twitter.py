@@ -89,6 +89,9 @@ class Twitter:
         # Split hashtags with captials
         tweet = " ".join(re.findall('[A-Z][^A-Z]*', tweet))
 
+        # Convert to lowercase
+        tweet = tweet.lower()
+
         # FIXME Remove useless word such as 'de,du, le, la ...'
         # See: http://www.nltk.org/book/ch05.html
         tokens = nltk.word_tokenize(tweet)
@@ -96,16 +99,15 @@ class Twitter:
         cleaned_tweet = []
         for (word, tag) in categories:
             # if tag in ("VERB", "ADJ", "NOUN", "X"):
-                cleaned_tweet.append(word)
+            if tag in ("JJ", "JJR", "JJS", "NN", "NNP", "NNPS", "NNS",
+                       "RB", "RBR", "RBS",
+                       "VB", "VBD", "VBG", "VBN", "VBP", "WBZ"):
+                cleaned_tweet.append("(" + tag + "," + word + ")")
 
         tweet = " ".join(cleaned_tweet)
 
-        # Remove punctuation
-        tweet = "".join(character for character in tweet if character not in string.punctuation)
-
         # TODO Convert smiley to text
 
-
-        # Convert to lowercase
-        tweet = tweet.lower()
+        # Remove punctuation
+        tweet = "".join(character for character in tweet if character not in string.punctuation)
         return tweet

@@ -26,13 +26,13 @@ def results(request, username):
 
     twitter  = Twitter("config.ini")
     timeline = twitter.get_tweets_from(username, 10)
-    tweets   = twitter.clean_tweets(timeline)
     name     = twitter.get_name(username)
-
+    (tweets, hashtags) = twitter.get_tokens(timeline)
 
     content = {
       'username': name,
       'timeline': timeline,
+      'hashtags': hashtags,
       'formatted_tweets': tweets
     }
     return render(request, 'schmilka/results.html', content, context)

@@ -67,7 +67,7 @@ class Twitter:
          self     -- object itself
          timeline -- timeline of a user
     """
-    def clean_tweets(self, timeline):
+    def __clean_tweets(self, timeline):
         new_tweets = []
         for tweet in timeline:
             clear_text = ""
@@ -93,10 +93,6 @@ class Twitter:
         # Remove # from hashtag
         tweet = re.sub(r'#[A-Za-z]*', ' ', tweet)
 
-        # Split hashtags with captials
-        #tweet = " ".join(re.findall('[A-Z][^A-Z]*', tweet))
-
-
         # Remove useless word such as 'de,du, le, la ...'
         tweet = ' '.join([word for word in tweet.split() if word not in self.cachedStopWordsFR])
         tweet = ' '.join([word for word in tweet.split() if word not in self.cachedStopWordsEN])
@@ -107,9 +103,44 @@ class Twitter:
         tweet = "".join(character for character in tweet if character not in string.punctuation)
         return tweet
 
-    def get_tokens(self, tweets, timeline):
-        return ""
+    """Get all hashtags from tweets
+       Keyword arguments:
+         self     -- object itsel
+         timeline -- timeline of a user
+    """
+    def __get_hashtags(self, timeline):
+        hashtags = []
+        for tweet in timeline:
+            hashtag = ""
+            if tweet.retweeted:
+                hashtag = self.__get_hashtags_from(tweet.retweeted_status.text)
+            else:
+                hashtag = self.__get_hashtags_from(tweet.text)
+            hashtags.append(hashtag)
+        return hashtags
+
+#        hashtags = []
+#        for tweet in timeline:
+#            hashtags_list = tweet.entities.hashtags
+#            for hashtag in hashtags_list:
+#                hashtags.append(hashtag)
+#        return hashtags
 
 
+    """Get all hashtags from a tweet
+       Keyword arguments:
+         self  -- object itsel
+         tweet -- user tweet
+    """
+    def __get_hashtags_from(self, tweet):
+        return [ tag.strip("#") for tag in tweet.split() if tag.startswith("#")]
 
-
+    """Get cleaned tweets and hashtags
+       Keyword arguments:
+         self     -- object itsel
+         timeline -- timeline of a user
+    """
+    def get_tokens(self, timeline):
+        tweets = self.__clean_tweets(timeline)
+        hashtags = self.__get_hashtags(timeline)
+        return (tweets, hashtags)

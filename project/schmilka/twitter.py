@@ -4,11 +4,11 @@
 # Load all import
 import sys
 import re
-import nltk
 import string
 import tweepy
 
 from unidecode import unidecode
+from nltk.corpus import stopwords
 from ConfigParser import SafeConfigParser
 
 # Set configuration
@@ -37,6 +37,10 @@ class Twitter:
         auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
 
         self.api = tweepy.API(auth)
+
+        # Put in "cache" stop words from French and English directories
+        self.cachedStopWordsEN = stopwords.words("english")
+        self.cachedStopWordsFR = stopwords.words("french")
 
     """Retrieve N tweets from a USER
        Keyword arguments:
@@ -68,9 +72,9 @@ class Twitter:
         for tweet in timeline:
             clear_text = ""
             if tweet.retweeted:
-                clear_text = self.__clean(tweet.retweeted_status.text)
+                clear_text = self.__purify(tweet.retweeted_status.text)
             else:
-                clear_text = self.__clean(tweet.text)
+                clear_text = self.__purify(tweet.text)
             new_tweets.append(clear_text)
         return new_tweets
 
@@ -79,35 +83,33 @@ class Twitter:
          self  -- object itself
          tweet -- a tweet
     """
-    def __clean(self, tweet):
+    def __purify(self, tweet):
         # Remove URL - use regex
         tweet = re.sub(r"http\S+", "", tweet)
-
-        # Remove # from hashtag
-        tweet = re.sub(r'#', ' ', tweet)
-
-        # Split hashtags with captials
-        tweet = " ".join(re.findall('[A-Z][^A-Z]*', tweet))
 
         # Convert to lowercase
         tweet = tweet.lower()
 
-        # FIXME Remove useless word such as 'de,du, le, la ...'
-        # See: http://www.nltk.org/book/ch05.html
-        tokens = nltk.word_tokenize(tweet)
-        categories = nltk.pos_tag(tokens)
-        cleaned_tweet = []
-        for (word, tag) in categories:
-            # if tag in ("VERB", "ADJ", "NOUN", "X"):
-            if tag in ("JJ", "JJR", "JJS", "NN", "NNP", "NNPS", "NNS",
-                       "RB", "RBR", "RBS",
-                       "VB", "VBD", "VBG", "VBN", "VBP", "WBZ"):
-                cleaned_tweet.append("(" + tag + "," + word + ")")
+        # Remove # from hashtag
+        tweet = re.sub(r'#[A-Za-z]*', ' ', tweet)
 
-        tweet = " ".join(cleaned_tweet)
+        # Split hashtags with captials
+        #tweet = " ".join(re.findall('[A-Z][^A-Z]*', tweet))
+
+
+        # Remove useless word such as 'de,du, le, la ...'
+        tweet = ' '.join([word for word in tweet.split() if word not in self.cachedStopWordsFR])
+        tweet = ' '.join([word for word in tweet.split() if word not in self.cachedStopWordsEN])
 
         # TODO Convert smiley to text
 
         # Remove punctuation
         tweet = "".join(character for character in tweet if character not in string.punctuation)
         return tweet
+
+    def get_tokens(self, tweets, timeline):
+        return ""
+
+
+
+

@@ -27,7 +27,8 @@ def results(request, username):
     twitter  = Twitter("config.ini")
     timeline = twitter.get_tweets_from(username, 10)
     name     = twitter.get_name(username)
-    (tweets, hashtags) = twitter.get_tokens(timeline)
+    tokens   = twitter.get_tokens(timeline)
+    (tweets, hashtags) = tokens
 
     content = {
       'username': name,

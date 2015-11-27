@@ -90,8 +90,11 @@ class Twitter:
         # Convert to lowercase
         tweet = tweet.lower()
 
-        # Remove # from hashtag
+        # Remove hashtag (start with #)
         tweet = re.sub(r'#[A-Za-z]*', ' ', tweet)
+
+        # Remove user mention (start with @)
+        tweet = re.sub(r'@[A-Za-z]*', ' ', tweet)
 
         # Remove useless word such as 'de,du, le, la ...'
         tweet = ' '.join([word for word in tweet.split() if word not in self.cachedStopWordsFR])
@@ -116,7 +119,8 @@ class Twitter:
                 hashtag = self.__get_hashtags_from(tweet.retweeted_status.text)
             else:
                 hashtag = self.__get_hashtags_from(tweet.text)
-            hashtags.append(hashtag)
+            if hashtag:
+              hashtags.append(hashtag)
         return hashtags
 
 #        hashtags = []
@@ -126,7 +130,6 @@ class Twitter:
 #                hashtags.append(hashtag)
 #        return hashtags
 
-
     """Get all hashtags from a tweet
        Keyword arguments:
          self  -- object itsel
@@ -135,7 +138,7 @@ class Twitter:
     def __get_hashtags_from(self, tweet):
         return [ tag.strip("#") for tag in tweet.split() if tag.startswith("#")]
 
-    """Get cleaned tweets and hashtags
+    """Created tokens from cleaned tweets and hashtags
        Keyword arguments:
          self     -- object itsel
          timeline -- timeline of a user
@@ -143,4 +146,18 @@ class Twitter:
     def get_tokens(self, timeline):
         tweets = self.__clean_tweets(timeline)
         hashtags = self.__get_hashtags(timeline)
-        return (tweets, hashtags)
+
+        # Split into different token and output in a single list
+        tweets_list_tokens = [tweet.split() for tweet in tweets]
+        tweets_tokens = [item for sublist in tweets_list_tokens for item in sublist]
+
+        # Flatten all the sublist in a single list
+        hashtags_tokens_tmp = [item for sublist in hashtags for item in sublist]
+        hashtags_tokens = []
+        for hashtag in hashtags_tokens_tmp:
+            split = re.findall('[A-Z][a-z]*', hashtag)
+            if split:
+                hashtags_tokens.append(" ".join(split))
+            else:
+                hashtags_tokens.append(hashtag)
+        return (tweets_tokens, hashtags_tokens)

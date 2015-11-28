@@ -157,7 +157,8 @@ class Twitter:
         for hashtag in hashtags_tokens_tmp:
             split = re.findall('[A-Z][a-z]*', hashtag)
             if split:
-                hashtags_tokens.append(" ".join(split))
+                split_lower = map(lambda x:x.lower(), split)
+                hashtags_tokens.append(" ".join(split_lower))
             else:
                 hashtags_tokens.append(hashtag)
         return (tweets_tokens, hashtags_tokens)

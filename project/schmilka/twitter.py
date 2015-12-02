@@ -95,15 +95,14 @@ class Twitter:
         # Convert to lowercase
         tweet = tweet.lower()
 
+        # FIXME Remove preposition like l', d' ...
+        tweet = re.sub(r'^[A-Za-z](\'|\’)', '', tweet)
+
         # Remove hashtag (start with #)
-        tweet = re.sub(r'#[A-Za-z]*', ' ', tweet)
+        tweet = re.sub(r'#[a-z]*', ' ', tweet)
 
         # Remove user mention (start with @)
-        tweet = re.sub(r'@[A-Za-z]*', ' ', tweet)
-
-        # Remove useless word such as 'de,du, le, la ...'
-        tweet = ' '.join([word for word in tweet.split() if word not in self.cachedStopWordsFR])
-        tweet = ' '.join([word for word in tweet.split() if word not in self.cachedStopWordsEN])
+        tweet = re.sub(r'@[a-z]*', ' ', tweet)
 
         # TODO Convert smiley to text
 
@@ -112,6 +111,16 @@ class Twitter:
 
         # Stem each word
         tweet = self.__stem(tweet, lang)
+
+        # Remove useless word such as 'de,du, le, la ...'
+        # Remove single letter (can be appear after __stem)
+        tweet = ' '.join([word
+            for word in tweet.split() 
+                if len(word) > 1 and
+                   word not in self.cachedStopWordsEN and
+                   word not in self.cachedStopWordsFR
+            ]
+        )
         return tweet
 
     """Get all hashtags from tweets

@@ -1,11 +1,12 @@
 # Django import
-from django.http import HttpResponseRedirect, HttpResponse
-from django.template import RequestContext
-from django.shortcuts import render
+from django.http              import HttpResponseRedirect, HttpResponse
+from django.template          import RequestContext
+from django.shortcuts         import render
 from django.core.urlresolvers import reverse
 
 # Our import
-from twitter import Twitter
+from twitter            import Twitter
+from DocumentProcessing import DocumentProcessing
 
 # Views
 def index(request):

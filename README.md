@@ -7,10 +7,10 @@ Requirements
 ------------
 
 ```shell
-pip install django
-pip install tweepy
-pip install nltk
-
+[sudo] pip install django
+[sudo] pip install tweepy
+[sudo] pip install nltk
+[sudo] pip install pyhunspell
 ```
 
 ### Nltk

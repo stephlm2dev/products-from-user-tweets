@@ -6,6 +6,7 @@ import sys
 import re
 import string
 import tweepy
+import hunspell
 
 from unidecode import unidecode
 from nltk.corpus import stopwords
@@ -42,6 +43,10 @@ class Twitter:
         self.cachedStopWordsEN = stopwords.words("english")
         self.cachedStopWordsFR = stopwords.words("french")
 
+        # Stemmer object
+        self.stemmerEN = hunspell.HunSpell('/usr/share/myspell/dicts/en_US.dic', '/usr/share/myspell/dicts/en_US.aff')
+        self.stemmerFR = hunspell.HunSpell('/usr/share/myspell/dicts/fr_FR.dic', '/usr/share/myspell/dicts/fr_FR.aff')
+
     """Retrieve N tweets from a USER
        Keyword arguments:
          self     -- object itself
@@ -72,9 +77,9 @@ class Twitter:
         for tweet in timeline:
             clear_text = ""
             if tweet.retweeted:
-                clear_text = self.__purify(tweet.retweeted_status.text)
+                clear_text = self.__purify(tweet.retweeted_status.text, tweet.lang)
             else:
-                clear_text = self.__purify(tweet.text)
+                clear_text = self.__purify(tweet.text, tweet.lang)
             new_tweets.append(clear_text)
         return new_tweets
 
@@ -83,7 +88,7 @@ class Twitter:
          self  -- object itself
          tweet -- a tweet
     """
-    def __purify(self, tweet):
+    def __purify(self, tweet, lang):
         # Remove URL - use regex
         tweet = re.sub(r"http\S+", "", tweet)
 
@@ -104,11 +109,14 @@ class Twitter:
 
         # Remove punctuation
         tweet = "".join(character for character in tweet if character not in string.punctuation)
+
+        # Stem each word
+        tweet = self.__stem(tweet, lang)
         return tweet
 
     """Get all hashtags from tweets
        Keyword arguments:
-         self     -- object itsel
+         self     -- object itself
          timeline -- timeline of a user
     """
     def __get_hashtags(self, timeline):
@@ -123,24 +131,74 @@ class Twitter:
               hashtags.append(hashtag)
         return hashtags
 
-#        hashtags = []
-#        for tweet in timeline:
-#            hashtags_list = tweet.entities.hashtags
-#            for hashtag in hashtags_list:
-#                hashtags.append(hashtag)
-#        return hashtags
-
     """Get all hashtags from a tweet
        Keyword arguments:
-         self  -- object itsel
+         self  -- object itself
          tweet -- user tweet
     """
     def __get_hashtags_from(self, tweet):
         return [ tag.strip("#") for tag in tweet.split() if tag.startswith("#")]
 
+    """Stem words in the tweet (FR and EN) and merge the result
+       Keyword arguments:
+         self  -- object itself
+         tweet -- user tweet
+         lang  -- tweet lang
+    """
+    def __stem(self, tweet, lang):
+        stem_EN = self.__stem_in(tweet, self.stemmerEN)
+        stem_FR = self.__stem_in(tweet, self.stemmerFR)
+
+        words = []
+        unknow_words = []
+        # Merge function
+        # Key → word
+        # Value → [exist, stem]
+        for key, value in stem_FR.iteritems():
+            stem_EN_value = stem_EN[key]
+            if not(value[0]) and not(stem_EN_value[0]):
+                unknow_words.append(key)
+            elif value[0] and stem_EN_value[0]:
+                if lang == "fr" and value[1] != None:
+                    words.append(value[1])
+                elif lang == "en" and stem_EN_value[1] != None:
+                    words.append(stem_EN_value[1])
+            elif value[0]: # french word
+                words.append(value[1])
+            else: # english word
+                words.append(stem_EN_value[1])
+
+        return (" ".join(words + unknow_words))
+
+    """Stem a word (FR and EN)
+       Keyword arguments:
+         self  -- object itself
+         tweet -- user tweet
+         lang  -- lang dictionnary
+    """
+    def __stem_in(self, tweet, lang):
+        hashmap_lang  = {}
+        for word in tweet.split():
+            information = []
+            exists = lang.spell(word)
+            information.append(exists)
+            if (exists):
+                stem_word = lang.stem(word)
+            else:
+                suggested_word = lang.suggest(word)
+                stem_word = lang.stem(suggested_word[0])
+            
+            if (stem_word):
+                information.append(stem_word[0])
+            else:
+                information.append(None)
+
+            hashmap_lang[word] = information
+        return hashmap_lang
+
     """Created tokens from cleaned tweets and hashtags
        Keyword arguments:
-         self     -- object itsel
+         self     -- object itself
          timeline -- timeline of a user
     """
     def get_tokens(self, timeline):

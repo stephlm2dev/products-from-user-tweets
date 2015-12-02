@@ -1,8 +1,31 @@
 body {
-  color: white;
-  padding: 10px;
-  background-color: #212121;
   font-family: 'Open Sans', sans-serif;
+  background-color: white;
+  /* TODO Replace me with a local img ! */
+  background-image: url("http://www.transparenttextures.com/patterns/back-pattern.png");
+}
+
+#header {
+  color: white;
+  width: 100vw;
+  height: 43vh;
+  text-align: center;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  /* TODO Replace me with a local img ! */
+  background-image: url(http://i.imgur.com/S5bKt4s.jpg);
+}
+
+#header h1, #header p {
+  flex: 1 1 100%;
+  text-shadow: 0px 0px 5px rgba(0, 0, 0, 0.80);
+}
+
+#header h1 {
+  margin: 0;
 }
 
 /* Inspired by Bootstrap */
@@ -14,12 +37,26 @@ body {
 
 .content {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 form {
+  margin: 0;
+  /*height: 57vh;*/
   display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  align-content: flex-start;
+}
+
+.twittos-field {
+  padding: 15px;
+  margin: 0 auto;
+  flex: 0 0 500px;
+  margin-top: 30px;
+  margin-bottom: 20px;
+  background-color: #D62246;
 }
 
 .twittos-field label {
@@ -28,16 +65,17 @@ form {
 
 .twittos-field input {
   color: black;
-  margin-right: 10px;
+  width: 500px;
+  font-weight: bold;
 }
 
 .submit-form {
   border: none;
-  color: white;
-  background-color: transparent;
-  font-weight: bold;
-  font-size: 17px;
+  flex: 1 1 100%;
+  color: #2A2929;
   cursor: pointer;
+  font-weight: bold;
+  background-color: transparent;
 }
 
 /* Twitter: https://dev.twitter.com/web/embedded-tweets/css */

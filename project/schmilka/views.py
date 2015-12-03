@@ -10,8 +10,21 @@ from DocumentProcessing import DocumentProcessing
 
 # Views
 def index(request):
-    context = {}
+    # Request our context from the request passed to us.
+    context = RequestContext(request)
+
     return render(request, 'schmilka/index.html', context)
+
+def ajaxTwitterUser(request):
+    # Request our context from the request passed to us.
+    context = RequestContext(request)
+
+    if request.method == 'GET':
+        query = request.GET['query']
+
+    twitter = Twitter("config.ini")
+    twittos = twitter.get_users(query)
+    return HttpResponse(twittos)
 
 def process(request):
     username = request.POST['twittos']
@@ -29,7 +42,7 @@ def results(request, username):
     timeline = twitter.get_tweets_from(username, 10)
     name     = twitter.get_name(username)
     tokens   = twitter.get_tokens(timeline)
-    (tweets, hashtags) = tokens
+    (tweets, hashtags) = tokens    
 
     content = {
       'username': name,

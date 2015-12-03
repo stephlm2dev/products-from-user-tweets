@@ -5,6 +5,11 @@ body {
   background-image: url("http://www.transparenttextures.com/patterns/back-pattern.png");
 }
 
+button, input[type="submit"] {
+  border: none;
+  background-color: transparent;
+}
+
 #header {
   color: white;
   width: 100vw;
@@ -21,11 +26,28 @@ body {
 
 #header h1, #header p {
   flex: 1 1 100%;
-  text-shadow: 0px 0px 5px rgba(0, 0, 0, 0.80);
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.80);
 }
 
 #header h1 {
   margin: 0;
+}
+
+.twittos-list {
+  flex: 1 1 100%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  list-style-type: none;
+}
+
+.twittos {
+  padding: 10px;
+}
+
+.twittos button:hover {
+  background: #DEDEDE;
 }
 
 /* Inspired by Bootstrap */
@@ -43,7 +65,6 @@ body {
 
 form {
   margin: 0;
-  /*height: 57vh;*/
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -55,7 +76,6 @@ form {
   margin: 0 auto;
   flex: 0 0 500px;
   margin-top: 30px;
-  margin-bottom: 20px;
   background-color: #D62246;
 }
 
@@ -70,12 +90,10 @@ form {
 }
 
 .submit-form {
-  border: none;
   flex: 1 1 100%;
   color: #2A2929;
   cursor: pointer;
   font-weight: bold;
-  background-color: transparent;
 }
 
 /* Twitter: https://dev.twitter.com/web/embedded-tweets/css */

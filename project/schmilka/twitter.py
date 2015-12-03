@@ -196,7 +196,7 @@ class Twitter:
             else:
                 suggested_word = lang.suggest(word)
                 stem_word = lang.stem(suggested_word[0])
-            
+
             if (stem_word):
                 information.append(stem_word[0])
             else:
@@ -229,3 +229,8 @@ class Twitter:
             else:
                 hashtags_tokens.append(hashtag)
         return (tweets_tokens, hashtags_tokens)
+
+    def get_users(self, query, page = 1, per_page = 5):
+        users = self.api.search_users(query, per_page, page)
+        users_name = [user.screen_name for user in users]
+        return (";".join(users_name))

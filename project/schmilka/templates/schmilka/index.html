@@ -4,8 +4,7 @@
 <link rel="stylesheet" type="text/css" href="{% static 'schmilka/style.css' %}" />
 <link rel='stylesheet' type='text/css' href='https://fonts.googleapis.com/css?family=Open+Sans:400'>
 <script type="text/javascript" src="{% static 'schmilka/scripts/jquery-2.1.4.min.js' %}"></script>
-<script type="text/javascript" src="{% static 'schmilka/scripts/typeahead.bundle.js' %}"></script>
-<!-- <script type="text/javascript" src="{% static 'schmilka/scripts/script.js' %}"></script> -->
+<script type="text/javascript" src="{% static 'schmilka/scripts/script.js' %}"></script>
 
 <div class="content" role="main">
 
@@ -19,8 +18,15 @@
     {% csrf_token %}
     <div class="twittos-field">
       <label for="twittos">Identifiant Twitter</label>
-      <input class="typeahead" name="twittos" id="twittos" placeholder="Identifiant du compte Twitter">
+      <input name="twittos" id="twittos" placeholder="Identifiant du compte Twitter">
     </div>
+    <ul class="twittos-list">
+      <li class="twittos first"><!-- Twitter user suggestion --></li>
+      <li class="twittos"><!-- Twitter user suggestion --></li>
+      <li class="twittos"><!-- Twitter user suggestion --></li>
+      <li class="twittos last"><!-- Twitter user suggestion --></li>
+    </ul>
     <input type="submit" value="Affichez-moi les produits associés !" class="submit-form"/>
   </form>
+
 </div>

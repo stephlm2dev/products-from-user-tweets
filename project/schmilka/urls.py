@@ -6,12 +6,15 @@ urlpatterns = [
     # URL: /
     url(r'^$', views.index, name='index'),
 
-    # URL: /handleData
+    # URL: /ajaxTwitterUser
+    url(r'^ajaxTwitterUser$', views.ajaxTwitterUser, name='ajaxTwitterUser'),
+
+    # URL: /process
     url(r'^process$', views.process, name='process'),
 
     # URL: /products
     url(r'^products/(?P<username>[A-Za-z0-9_]+)$', views.results, name='results'),
 
-    # url(r'^products/(?P<username>[a-z]+)/$', views.results, name='results'),
+    
 
 ]

@@ -95,8 +95,8 @@ class Twitter:
         # Convert to lowercase
         tweet = tweet.lower()
 
-        # FIXME Remove preposition like l', d' ...
-        tweet = re.sub(r'^[A-Za-z](\'|\’)', '', tweet)
+        # Remove preposition like l', d' ...
+        tweet = re.sub(r'[A-Za-z][\'|\’]', '', tweet)
 
         # Remove hashtag (start with #)
         tweet = re.sub(r'#[a-z]*', ' ', tweet)

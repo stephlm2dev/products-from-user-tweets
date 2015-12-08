@@ -10,7 +10,8 @@ Requirements
 [sudo] pip install django
 [sudo] pip install tweepy
 [sudo] pip install nltk
-[sudo] pip install pyhunspell
+[sudo] pip install hunspell
+[sudo] pip install python-amazon-product-api
 ```
 
 ### Nltk
@@ -29,6 +30,10 @@ File → Change Download Directory
 Install 'all-corpora' package
 
 [More details on 'Installing NLTK Data'](http://www.nltk.org/data.html)
+
+### Hunspell
+
+TODO
 
 Server
 ------

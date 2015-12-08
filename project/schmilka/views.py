@@ -6,7 +6,7 @@ from django.core.urlresolvers import reverse
 
 # Our import
 from twitter            import Twitter
-from DocumentProcessing import DocumentProcessing
+# from DocumentProcessing import DocumentProcessing
 
 # Views
 def index(request):

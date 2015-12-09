@@ -115,7 +115,7 @@ class Twitter:
         # Remove useless word such as 'de,du, le, la ...'
         # Remove single letter (can be appear after __stem)
         tweet = ' '.join([word
-            for word in tweet.split() 
+            for word in tweet.split()
                 if len(word) > 1 and
                    word not in self.cachedStopWordsEN and
                    word not in self.cachedStopWordsFR
@@ -188,14 +188,17 @@ class Twitter:
     def __stem_in(self, tweet, lang):
         hashmap_lang  = {}
         for word in tweet.split():
-            information = []
+            information = [] # [exist, suggested_word]
             exists = lang.spell(word)
             information.append(exists)
             if (exists):
                 stem_word = lang.stem(word)
             else:
                 suggested_word = lang.suggest(word)
-                stem_word = lang.stem(suggested_word[0])
+                if (suggested_word):
+                    stem_word = lang.stem(suggested_word[0])
+                else:
+                    stem_word = False
 
             if (stem_word):
                 information.append(stem_word[0])

@@ -215,20 +215,10 @@ class Twitter:
         hashtags = self.__get_hashtags(timeline)
 
         # Split into different token and output in a single list
-        tweets_list_tokens = [tweet.split() for tweet in tweets]
-        tweets_tokens = [item for sublist in tweets_list_tokens for item in sublist]
+        tweets_list_tokens = [tweet.split() for tweet in tweets if tweet]
+        # tweets_tokens = [item for sublist in tweets_list_tokens for item in sublist]
 
-        # Flatten all the sublist in a single list
-        hashtags_tokens_tmp = [item for sublist in hashtags for item in sublist]
-        hashtags_tokens = []
-        for hashtag in hashtags_tokens_tmp:
-            split = re.findall('[A-Z][a-z]*', hashtag)
-            if split:
-                split_lower = map(lambda x:x.lower(), split)
-                hashtags_tokens.append(" ".join(split_lower))
-            else:
-                hashtags_tokens.append(hashtag)
-        return (tweets_tokens, hashtags_tokens)
+        return (tweets_list_tokens, hashtags)
 
     def get_users(self, query, page = 1, per_page = 5):
         users = self.api.search_users(query, per_page, page)

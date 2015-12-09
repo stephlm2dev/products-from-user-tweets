@@ -167,25 +167,24 @@ class Twitter:
         stem_FR = self.__stem_in(tweet, self.stemmerFR)
 
         words = []
-        unknow_words = []
         # Merge function
         # Key → word
         # Value → [exist, stem]
         for key, value in stem_FR.iteritems():
             stem_EN_value = stem_EN[key]
-            if not(value[0]) and not(stem_EN_value[0]):
-                unknow_words.append(key)
-            elif value[0] and stem_EN_value[0]:
+            if (not(value[0]) and not(stem_EN_value[0])) or (value[0] and stem_EN_value[0]):
                 if lang == "fr" and value[1] != None:
                     words.append(value[1])
                 elif lang == "en" and stem_EN_value[1] != None:
                     words.append(stem_EN_value[1])
+                else:
+                    words.append(key)
             elif value[0]: # french word
                 words.append(value[1])
             else: # english word
                 words.append(stem_EN_value[1])
 
-        return (" ".join(words + unknow_words))
+        return (" ".join(words))
 
     """Stem a word (FR and EN)
        Keyword arguments:

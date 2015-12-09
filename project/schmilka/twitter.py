@@ -22,7 +22,7 @@ class Twitter:
          self   -- object itself
          config -- file that contains the config of Twitter
     """
-    def __init__(self, config):
+    def __init__(self, config, processing = True):
         # Load configuration from config.ini
         parser = SafeConfigParser()
         parser.read(config)
@@ -39,13 +39,14 @@ class Twitter:
 
         self.api = tweepy.API(auth)
 
-        # Put in "cache" stop words from French and English directories
-        self.cachedStopWordsEN = stopwords.words("english")
-        self.cachedStopWordsFR = stopwords.words("french")
+        if (processing):
+            # Put in "cache" stop words from French and English directories
+            self.cachedStopWordsEN = stopwords.words("english")
+            self.cachedStopWordsFR = stopwords.words("french")
 
-        # Stemmer object
-        self.stemmerEN = hunspell.HunSpell('/usr/share/myspell/dicts/en_US.dic', '/usr/share/myspell/dicts/en_US.aff')
-        self.stemmerFR = hunspell.HunSpell('/usr/share/myspell/dicts/fr_FR.dic', '/usr/share/myspell/dicts/fr_FR.aff')
+            # Stemmer object
+            self.stemmerEN = hunspell.HunSpell('/usr/share/myspell/dicts/en_US.dic', '/usr/share/myspell/dicts/en_US.aff')
+            self.stemmerFR = hunspell.HunSpell('/usr/share/myspell/dicts/fr_FR.dic', '/usr/share/myspell/dicts/fr_FR.aff')
 
     """Retrieve N tweets from a USER
        Keyword arguments:
@@ -104,10 +105,17 @@ class Twitter:
         # Remove user mention (start with @)
         tweet = re.sub(r'@[a-z]*', ' ', tweet)
 
-        # TODO Convert smiley to text
+        # Remove smiley
+        tmp_tweet = []
+        for word in tweet.split():
+            a_word = re.search('[a-z0-9]*', unidecode(word))
+            if (not (a_word is None) and a_word.group(0) != ''):
+                tmp_tweet.append(a_word.group(0))
 
-        # Remove punctuation
-        tweet = "".join(character for character in tweet if character not in string.punctuation)
+        tweet = " ".join(tmp_tweet)
+
+        # Remove punctuation - already done by the previous process
+        # tweet = "".join(character for character in tweet if character not in string.punctuation)
 
         # Stem each word
         tweet = self.__stem(tweet, lang)
@@ -117,8 +125,8 @@ class Twitter:
         tweet = ' '.join([word
             for word in tweet.split()
                 if len(word) > 1 and
-                   word not in self.cachedStopWordsEN and
-                   word not in self.cachedStopWordsFR
+                word not in self.cachedStopWordsEN and
+                word not in self.cachedStopWordsFR
             ]
         )
         return tweet
@@ -214,14 +222,24 @@ class Twitter:
          timeline -- timeline of a user
     """
     def get_tokens(self, timeline):
-        tweets = self.__clean_tweets(timeline)
-        hashtags = self.__get_hashtags(timeline)
+      tweets = self.__clean_tweets(timeline)
+      hashtags = self.__get_hashtags(timeline)
 
-        # Split into different token and output in a single list
-        tweets_list_tokens = [tweet.split() for tweet in tweets if tweet]
-        # tweets_tokens = [item for sublist in tweets_list_tokens for item in sublist]
+      # Split into different token and output in a single list
+      tweets_list_tokens = [tweet.split() for tweet in tweets]
+      tweets_tokens = [item for sublist in tweets_list_tokens for item in sublist]
 
-        return (tweets_list_tokens, hashtags)
+      # Flatten all the sublist in a single list
+      hashtags_tokens_tmp = [item for sublist in hashtags for item in sublist]
+      hashtags_tokens = []
+      for hashtag in hashtags_tokens_tmp:
+          split = re.findall('[A-Z][a-z]*', hashtag)
+          if split:
+              split_lower = map(lambda x:x.lower(), split)
+              hashtags_tokens.append(" ".join(split_lower))
+          else:
+              hashtags_tokens.append(hashtag)
+      return (tweets_tokens, hashtags_tokens)
 
     def get_users(self, query, page = 1, per_page = 5):
         users = self.api.search_users(query, per_page, page)

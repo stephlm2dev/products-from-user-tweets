@@ -22,7 +22,7 @@ def ajaxTwitterUser(request):
     if request.method == 'GET':
         query = request.GET['query']
 
-    twitter = Twitter("config.ini")
+    twitter = Twitter("config.ini", False)
     twittos = twitter.get_users(query)
     return HttpResponse(twittos)
 
@@ -42,7 +42,7 @@ def results(request, username):
     timeline = twitter.get_tweets_from(username, 10)
     name     = twitter.get_name(username)
     tokens   = twitter.get_tokens(timeline)
-    (tweets, hashtags) = tokens    
+    (tweets, hashtags) = tokens
 
     content = {
       'username': name,

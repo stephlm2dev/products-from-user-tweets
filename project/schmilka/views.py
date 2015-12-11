@@ -6,6 +6,7 @@ from django.core.urlresolvers import reverse
 
 # Our import
 from twitter            import Twitter
+from twittosProvider    import TwittosProvider
 # from DocumentProcessing import DocumentProcessing
 
 # Views
@@ -43,6 +44,9 @@ def results(request, username):
     name     = twitter.get_name(username)
     tokens   = twitter.get_tokens(timeline)
     (tweets, hashtags) = tokens
+
+    if TwittosProvider.can_update_from_timeline(timeline, username):
+        TwittosProvider.update_twittos_and_idf(timeline, username, tweets)
 
     content = {
       'username': name,

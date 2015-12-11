@@ -1,3 +1,5 @@
+/* TODO: autoprefixer + local img + clean tweet css */
+
 body {
   font-family: 'Open Sans', sans-serif;
   background-color: white;
@@ -8,6 +10,10 @@ body {
 button, input[type="submit"] {
   border: none;
   background-color: transparent;
+}
+
+.hidden {
+  display: none;
 }
 
 #header {
@@ -96,6 +102,50 @@ form {
   font-weight: bold;
 }
 
+/*********************************************/
+/*                  RESULTS                  */
+/*********************************************/
+
+.results-title {
+  font-weight: 100;
+  text-align: center;
+}
+
+.results-content {
+  display: flex;
+  margin-top: 30px;
+}
+
+.results-content blockquote.twitter-tweet {
+  background-color: #FFFFFF;
+  /* TODO Replace me with a local img ! */
+  background-image: url("http://www.transparenttextures.com/patterns/brilliant.png");
+}
+
+.results-content blockquote.twitter-tweet p {
+  color: #231F1F;
+}
+
+.twitter, .amazon {
+  flex: 0 0 42.5%;
+  text-align: center;
+}
+
+.separate-section {
+  flex: 0 0 15%; 
+  align-self: center;
+}
+
+.separate-section img {
+  width: 10vw;
+}
+
+.logo-section {
+  width: auto;
+  height: 81px;
+  margin-bottom: 10px;
+}
+
 /* Twitter: https://dev.twitter.com/web/embedded-tweets/css */
 blockquote.twitter-tweet {
   display: inline-block;
@@ -129,4 +179,42 @@ blockquote.twitter-tweet a {
 blockquote.twitter-tweet a:hover,
 blockquote.twitter-tweet a:focus {
   text-decoration: underline;
+}
+
+.amazon .product {
+  text-align: left;
+}
+
+.product blockquote {
+  display: flex;
+  padding: 10px;
+  align-items: center;
+}
+
+.product img {
+  flex: 0 0 15%;
+  border-radius: 5px;
+}
+
+.product .description {
+  flex: 0 0 70%;
+  padding: 0 10px;
+}
+
+.product .description h3 {
+  margin-top: 0;
+  margin-bottom: 5px;
+}
+
+.product .description p {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.product aside {
+  flex: 0 0 15%;
+}
+
+.product aside span {
+  color: #FFAD33;
 }

@@ -2,65 +2,77 @@
 
 <link rel="stylesheet" type="text/css" href="{% static 'schmilka/normalize.css' %}" />
 <link rel="stylesheet" type="text/css" href="{% static 'schmilka/style.css' %}" />
+<link rel='stylesheet' type='text/css' href='https://fonts.googleapis.com/css?family=Open+Sans:400,300'>
 
-Twitter user: {{ username }}
+<h1 class="results-title"> Produits recommandés pour @{{ username }} </h1>
 
-{% for tweet in timeline %}
-  <div class="tweet">
-    <blockquote class="twitter-tweet">
-      <p xml:lang="{{ tweet.lang }}" lang="{{ tweet.lang }}">
-        {% if tweet.retweeted %}
-          {{ tweet.retweeted_status.text }}
-        {% else %}
-         {{ tweet.text }}
-        {% endif %}
-      </p>
+<div class="results-content" role="main">
+  <section class="twitter">
+    <h2 class="hidden">Twitter</h2>
+    <img src="{% static "schmilka/images/twitter.svg" %}" class="logo-section"/>
 
-      <!-- Image -->
-      {% for media in tweet.entities.media %}
-        <img src="{{ media.media_url_https }}" alt="" title="" class="img-responsive">
-      {% endfor %}
+    {% for tweet in timeline %}
+      <div class="tweet">
+        <blockquote class="twitter-tweet">
+          <p xml:lang="{{ tweet.lang }}" lang="{{ tweet.lang }}">
+            {% if tweet.retweeted %}
+              {{ tweet.retweeted_status.text }}
+            {% else %}
+             {{ tweet.text }}
+            {% endif %}
+          </p>
 
-      <!-- Second part of the info -->
-      {% if tweet.retweeted %}
-        <a href="https://twitter.com/{{ tweet.retweeted_status.user.screen_name }}" target="_blank">
-          @{{ tweet.retweeted_status.user.screen_name }}</a>
-        </a>
-      {% else %}
-        <a href="https://twitter.com/{{ tweet.user.screen_name }}" target="_blank">
-          @{{ tweet.user.screen_name }}
-        </a>
-      {% endif %}
+          <!-- Second part of the info -->
+          {% if tweet.retweeted %}
+            <a href="https://twitter.com/{{ tweet.retweeted_status.user.screen_name }}" target="_blank">
+              @{{ tweet.retweeted_status.user.screen_name }}</a>
+            </a>
+          {% else %}
+            <a href="https://twitter.com/{{ tweet.user.screen_name }}" target="_blank">
+              @{{ tweet.user.screen_name }}
+            </a>
+          {% endif %}
 
-      -
-      {% if tweet.retweeted %}
-        <a href="https://twitter.com/{{ tweet.retweeted_status.user.screen_name
-          }}/status/{{ tweet.retweeted_status.id_str }}"
-          target="_blank">
-          {{ tweet.created_at }}
-        </a>
-      {% else %}
-        <a href="https://twitter.com/{{ tweet.screen_name }}/status/{{ tweet.id }}" target="_blank">
-          {{ tweet.created_at }}
-        </a>
-      {% endif %}
-    </blockquote>
+          -
+          {% if tweet.retweeted %}
+            <a href="https://twitter.com/{{ tweet.retweeted_status.user.screen_name }}/status/{{ tweet.retweeted_status.id_str }}"
+              target="_blank">
+              {{ tweet.created_at }}
+            </a>
+          {% else %}
+            <a href="https://twitter.com/{{ tweet.screen_name }}/status/{{ tweet.id }}" target="_blank">
+              {{ tweet.created_at }}
+            </a>
+          {% endif %}
+        </blockquote>
 
-  </div>
-{% empty %}
-  <p class="nothing">{{ username }} n'a pas encore tweeté. </p>
-{% endfor %}
+      </div>
+    {% empty %}
+      <p class="nothing">{{ username }} n'a pas encore tweeté. </p>
+    {% endfor %}
+  </section>
 
-<!-- REMOVE ME -->
-{% for el in formatted_tweets %}
-  WORD:
-  {{ el }} <br>
-{% endfor %}
+  <section class="separate-section">
+    <img src="{% static "schmilka/images/arrow.svg" %}" />
+  </section>
 
-{% for el in hashtags %}
-  HASHTAG:
-  {{ el }} <br>
-{% endfor %}
+  <section class="amazon">
+    <h2 class="hidden">Amazon</h2>
+    <img src="{% static "schmilka/images/amazon.svg" %}" class="logo-section"/>
 
-<!-- REMOVE ME -->
+    <div class="product">
+      <blockquote class="twitter-tweet">
+        <img src="http://placehold.it/100x100"/>
+        <div class="description">
+          <h3 class="product-title"> Product Name </h3>
+          <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce massa arcu, pretium a commodo vitae. </p>
+        </div>
+        <aside>
+          <a href="">Acheter</a>
+          <span class="price">30.00 € </span>
+        </aside>
+      </blockquote>
+    </div>
 
+  </section>
+</div>

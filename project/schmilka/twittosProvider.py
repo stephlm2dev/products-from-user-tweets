@@ -11,8 +11,6 @@ class TwittosProvider:
 		    lastTweet = timeline[0].id
 		    try:
 		        twittos = models.Twittos.objects.get(username = username)
-		        print twittos.lastTweet
-		        print lastTweet
 		        return twittos.lastTweet < lastTweet
 		    except models.Twittos.DoesNotExist:
 		        return True

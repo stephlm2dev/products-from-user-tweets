@@ -44,8 +44,3 @@ python2.7 manage.py runserver
 ```
 
 [http://localhost:8000/schmilka/](http://localhost:8000/schmilka/)
-
-Information
------------
-
-[SocialMediaParse](https://github.com/seandolinar/socialmediaparse)

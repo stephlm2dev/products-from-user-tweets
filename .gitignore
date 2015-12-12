@@ -145,3 +145,5 @@ Temporary Items
 ## Personal ignored files
 config.ini
 *.tex
+soutenance/*
+!soutenance/soutenance.pdf

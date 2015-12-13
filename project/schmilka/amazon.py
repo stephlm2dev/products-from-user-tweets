@@ -35,9 +35,18 @@ class Amazon:
                 associate_tag = ASSOCIATE_TAG,
                 locale = locale)
 
-    """ Search  
+    """ Search an item in Amazon products database
+        Keyword arguments:
+            self   -- object itself
+            section -- section where looking for the item
+            keywords -- keywords
     """
     def search_items(self, section, keywords, n_items):
-        results = self.api.item_search(section, Keywords = keywords)
-        for item in results:
-            print item.ItemAttributes.Title
+        try:
+            results = self.api.item_search(section, Keywords = keywords, ResponseGroup = "Medium")
+            items = []
+            for item in results:
+                items.append(item)
+            return items[0:n_items]
+        except amazonproduct.NoExactMatchesFound:
+            return []

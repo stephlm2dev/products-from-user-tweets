@@ -1,5 +1,5 @@
 $(document).ready(function() {
-  
+
   var busy = false;
   $('#twittos').keypress(function() {
     var result = $(".twittos-list")
@@ -7,7 +7,7 @@ $(document).ready(function() {
     if ( input.length > 1 && !busy ) {
       busy = true;
       $.get('/schmilka/ajaxTwitterUser', { query: input }, function(data){
-        if ( data.contains(";") ) {
+        if ( data.indexOf(";") != -1 ) {
           twittos = data.split(";")
           $('.twittos-list li').html( function(index) {
             $(this).addClass('not-empty');
@@ -24,5 +24,5 @@ $(document).ready(function() {
     var text = $(this).text();
     $('#twittos').val(text);
   });
-  
+
 });

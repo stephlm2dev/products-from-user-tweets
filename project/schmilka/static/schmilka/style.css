@@ -3,8 +3,7 @@
 body {
   font-family: 'Open Sans', sans-serif;
   background-color: white;
-  /* TODO Replace me with a local img ! */
-  background-image: url("http://www.transparenttextures.com/patterns/back-pattern.png");
+  background-image: url("images/back-pattern.png");
 }
 
 button, input[type="submit"] {
@@ -26,8 +25,7 @@ button, input[type="submit"] {
   align-items: center;
   align-content: center;
   justify-content: center;
-  /* TODO Replace me with a local img ! */
-  background-image: url(http://i.imgur.com/S5bKt4s.jpg);
+  background-image: url("images/header.jpg");
 }
 
 #header h1, #header p {
@@ -118,8 +116,7 @@ form {
 
 .results-content blockquote.twitter-tweet {
   background-color: #FFFFFF;
-  /* TODO Replace me with a local img ! */
-  background-image: url("http://www.transparenttextures.com/patterns/brilliant.png");
+  background-image: url("images/brilliant.png");
 }
 
 .results-content blockquote.twitter-tweet p {

@@ -61,17 +61,17 @@ def results(request, username):
     # TODO : Optimize this...
     tfidf_sorted = sorted(tfidf, key=tfidf.__getitem__, reverse=True)
     top_tokens = tfidf_sorted[0:10]
+    products = []
     for token in top_tokens:
         # items for this token (list of item)
         # item.ItemAttributes.Title => Name of the product
         # item.DetailPageURL  => Amazon URL of the product
         # item.SmallImage.URL  => Image URL of the product
-        items = amazon.search_items("All", token, 2)
+        products.append(amazon.search_items("All", token, 2))
 
     content = {
       'username': name,
       'timeline': timeline,
-      'hashtags': hashtags,
-      'formatted_tweets': tweets
+      'products': products
     }
     return render(request, 'schmilka/results.html', content, context)

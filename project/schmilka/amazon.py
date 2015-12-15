@@ -43,7 +43,7 @@ class Amazon:
     """
     def search_items(self, section, keywords, n_items):
         try:
-            results = self.api.item_search(section, Keywords = keywords, ResponseGroup = "Medium")
+            results = self.api.item_search(section, Keywords = keywords, ResponseGroup = "Medium",  Availability='Available', MerchantId ='Amazon')
             items = []
             for item in results:
                 items.append(item)

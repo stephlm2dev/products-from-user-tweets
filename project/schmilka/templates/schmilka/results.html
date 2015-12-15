@@ -56,25 +56,29 @@
     <img src="{% static "schmilka/images/arrow.svg" %}" />
   </section>
 
-  {{ products }}
-
   <section class="amazon">
     <h2 class="hidden">Amazon</h2>
     <img src="{% static "schmilka/images/amazon.svg" %}" class="logo-section"/>
 
-    <div class="product">
-      <blockquote class="twitter-tweet">
-        <img src="http://placehold.it/100x100"/>
-        <div class="description">
-          <h3 class="product-title"> Product Name </h3>
-          <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce massa arcu, pretium a commodo vitae. </p>
-        </div>
-        <aside>
-          <a href="">Acheter</a>
-          <span class="price">30.00 € </span>
-        </aside>
-      </blockquote>
-    </div>
+    {% for product in products %}
+      <div class="product">
+        <blockquote class="twitter-tweet">
+          {% if product.SmallImage.URL %}
+            <img src="{{ product.SmallImage.URL }}"/>
+          {% else %}
+            <img src="http://placehold.it/100x100"/>
+          {% endif %}
+          <div class="description">
+            <h3 class="product-title"> {{ product.ItemAttributes.Title }} </h3>
+            <p>{{ product.EditorialReviews.EditorialReview.Content }}</p>
+          </div>
+          <aside>
+            <a href="{{ product.DetailPageURL }}">Acheter</a>
+            <span class="price"> {{ product.OfferSummary.LowestNewPrice.FormattedPrice }} </span>
+          </aside>
+        </blockquote>
+      </div>
+    {% endfor %}
 
   </section>
 </div>

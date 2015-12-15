@@ -240,7 +240,27 @@ class Twitter:
               hashtags_tokens.append(hashtag)
       return (tweets_tokens, hashtags_tokens)
 
+    """Retrieve a list of users depend on query (for completion)
+       Keyword arguments:
+         self     -- object itself
+         query    -- query of the user (twitter ID)
+         page     -- number of page to retrieve
+         per_page -- number of element per page to retrieve
+    """
     def get_users(self, query, page = 1, per_page = 5):
         users = self.api.search_users(query, per_page, page)
         users_name = [user.screen_name for user in users]
         return (";".join(users_name))
+
+    """Return if the user exist
+       Keyword arguments:
+         self     -- object itself
+         username -- username to test
+    """
+    def get_user(self, username):
+      try:
+        self.api.get_user(username)
+      except tweepy.TweepError as e:
+          return False
+      else:
+          return True

@@ -32,10 +32,16 @@ def ajaxTwitterUser(request):
 def process(request):
     username = request.POST['twittos']
 
-    # Always return an HttpResponseRedirect after successfully dealing
-    # with POST data. This prevents data from being posted twice if a
-    # user hits the Back button.
-    return HttpResponseRedirect(reverse('app:results', args=(username,)))
+    twitter = Twitter("config.ini", False)
+    if ( not(twitter.get_user(username)) ):
+        return render(request, 'schmilka/index.html', {
+            'error_message': "Utilisateur/identifiant inconnu.",
+        }) 
+    else:
+        # Always return an HttpResponseRedirect after successfully dealing
+        # with POST data. This prevents data from being posted twice if a
+        # user hits the Back button.
+        return HttpResponseRedirect(reverse('app:results', args=(username,)))
 
 def results(request, username):
     # Request our context from the request passed to us.

@@ -121,6 +121,8 @@ form {
 
 .results-content blockquote.twitter-tweet p {
   color: #231F1F;
+  max-height: 60px;
+  overflow: hidden;
 }
 
 .twitter, .amazon {
@@ -194,7 +196,7 @@ blockquote.twitter-tweet a:focus {
 }
 
 .product .description {
-  flex: 0 0 70%;
+  flex: 0 0 65%;
   padding: 0 10px;
 }
 
@@ -209,7 +211,7 @@ blockquote.twitter-tweet a:focus {
 }
 
 .product aside {
-  flex: 0 0 15%;
+  flex: 0 0 20%;
 }
 
 .product aside span {

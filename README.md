@@ -1,5 +1,4 @@
 # Products from user tweets
 Display a set of products depends on user tweets
 
-## Information
-[SocialMediaParse](https://github.com/seandolinar/socialmediaparse)
+Code source de l'application sur la branche *Django*
